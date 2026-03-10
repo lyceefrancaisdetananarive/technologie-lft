@@ -13,29 +13,7 @@
   const depth = (scriptSrc.match(/\.\.\//g) || []).length;
   const BASE = depth === 0 ? '.' : Array(depth).fill('..').join('/');
 
-  // Also compute from page path
-  function getBasePath() {
-    const path = window.location.pathname;
-    const siteIndex = path.indexOf('/site/');
-    if (siteIndex === -1) {
-      // We're at the root of the site
-      const segments = path.split('/').filter(Boolean);
-      // Count how deep we are from index.html
-      const htmlFile = segments[segments.length - 1];
-      const isHtml = htmlFile && htmlFile.endsWith('.html');
-      const dirDepth = isHtml ? segments.length - 1 : segments.length;
-      // Find the site root
-      return '.';
-    }
-    const afterSite = path.substring(siteIndex + 6); // after '/site/'
-    const parts = afterSite.split('/').filter(Boolean);
-    const isFile = parts.length > 0 && parts[parts.length - 1].includes('.');
-    const dirParts = isFile ? parts.length - 1 : parts.length;
-    if (dirParts === 0) return '.';
-    return Array(dirParts).fill('..').join('/');
-  }
-
-  const ROOT = getBasePath();
+  const ROOT = BASE;
 
   // Site data for search
   const SITE_DATA = [
