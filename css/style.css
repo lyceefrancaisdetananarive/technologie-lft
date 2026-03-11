@@ -462,12 +462,14 @@ img {
 }
 
 .breadcrumb a {
-  color: var(--gray-500);
-  transition: color var(--transition-fast);
+  color: var(--primary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
 }
 
 .breadcrumb a:hover {
-  color: var(--primary);
+  color: var(--primary-dark, #003366);
+  text-decoration: underline;
 }
 
 .breadcrumb-sep {
