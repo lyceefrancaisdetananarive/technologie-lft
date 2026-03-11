@@ -293,16 +293,19 @@
   function renderBreadcrumb(items) {
     if (!items || items.length === 0) return null;
 
-    // Auto-add URLs for trimester breadcrumb items (T1/T2/T3)
+    // Auto-add URLs for trimester breadcrumb items (T1/T2/T3 or Trimestre 1/2/3)
     items = items.map((item, i) => {
-      if (!item.url && item.label && /^T[1-3]\s/.test(item.label) && i > 0) {
-        const prevItem = items[i - 1];
-        if (prevItem && prevItem.url) {
-          const trimNum = item.label.match(/^T([1-3])/)[1];
-          let tabId = 't' + trimNum;
-          if (prevItem.label.includes('4')) tabId += '-4';
-          else if (prevItem.label.includes('3')) tabId += '-3';
-          return { label: item.label, url: prevItem.url + '#' + tabId };
+      if (!item.url && item.label && i > 0 && i < items.length - 1) {
+        const match = item.label.match(/^T([1-3])\s|^Trimestre\s([1-3])/);
+        if (match) {
+          const prevItem = items[i - 1];
+          if (prevItem && prevItem.url) {
+            const trimNum = match[1] || match[2];
+            let tabId = 't' + trimNum;
+            if (prevItem.label.includes('4')) tabId += '-4';
+            else if (prevItem.label.includes('3')) tabId += '-3';
+            return { label: item.label, url: prevItem.url + '#' + tabId };
+          }
         }
       }
       return item;
